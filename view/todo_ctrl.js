@@ -7,11 +7,7 @@ app.controller('TodoCtrl', function($scope, $http) {
   	});
 
 	$scope.message = 'Angular is pretty cool.';
-	//$scope.todos = [
-    //	'Learn Sketch', 
-    //	'Look at Dribbble and feel inferior',
-    //	'Actually learn how to use the Pen tool'
-  	//];
+
 	$scope.done = function(todo) {
     	var indexOf = $scope.todos.indexOf(todo);
     	if (indexOf !== -1) {
@@ -21,29 +17,28 @@ app.controller('TodoCtrl', function($scope, $http) {
   	$scope.newTodo = "";
   	$scope.add = function(e) {
  		if(e.keyCode == 13) {
- 			$scope.todos.push($scope.newTodo);
  		
- 		// 	$http.post('http://localhost:8080/newtodo', $scope.newTodo)
-			// 	.success(function(data) {
-				
-	  //           console.log(data);
-			// });
-			var data_in = {};
-			data_in['id'] = 4;
-			data_in['name'] = $scope.newTodo;
+ 		 	//$http.post('http://localhost:8080/newtodo', {name : $scope.newTodo})
+			//.success(function(data) {
+			//	console.log(data);
+			//});
+
 			$http({
 	        	method  : 'POST',
 	        	url     : 'http://localhost:8080/newtodo',
-	        	data:  data_in,
-	        	//data    : {name:$scope.newTodo},  // pass in data as strings
-	        	headers : { 'Content-Type': 'application/x-www-form-urlencoded' }  // set the headers so angular passing info as form data (not request payload)
-	        	//headers: {'Content-Type': 'application/json'}
+	        	data    : {name : $scope.newTodo},  // pass in data as strings
+	        	headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
 	    	})
 	        .success(function(data) {
 	            console.log(data);
 	        });
-
+            var newTodoObj = {
+                id: 1,
+                name: $scope.newTodo
+            }
+ 			$scope.todos.push({name:$scope.newTodo});
  			$scope.newTodo = '';
         }
   	};
 });
+

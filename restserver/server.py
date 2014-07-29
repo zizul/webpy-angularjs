@@ -1,8 +1,10 @@
 import web
-import xml.etree.ElementTree as ET
+from lxml import etree as ET
+
 import json
 
-tree = ET.parse('../data/user_data.xml')
+parser = ET.XMLParser(remove_blank_text=True)
+tree = ET.parse("../data/user_data.xml", parser)
 root = tree.getroot()
 
 urls = (
@@ -54,11 +56,16 @@ class add_todo:
         web.header('Access-Control-Allow-Origin',      '*')
         web.header('Access-Control-Allow-Credentials', 'true')
         web.header('Access-Control-Allow-Methods', 'OPTIONS, TRACE, GET, HEAD, POST, PUT')
-        user_data = web.input();
-        #user_data = web.data()
-        print user_data;
-        print user_data['name'];
-        return
+        parsedData = json.loads(web.data())
+
+        parsedName = parsedData['name'];
+        lastnum = root.xpath('//todo[last()]/@id')[0]
+
+        root.append(ET.Element('todo', {'id': str(int(lastnum) + 1), 'name': parsedName}))
+        with open('../data/user_data.xml', 'w') as f:
+            tree.write(f, pretty_print=True)
+
+        return lastnum
 
 
 class get_user:
