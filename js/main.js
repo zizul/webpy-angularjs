@@ -1,4 +1,4 @@
-var app = angular.module('tutorialWebApp', ['ngRoute']);
+var app = angular.module('modernApp', ['ngRoute']);
 
 app.config(['$routeProvider', function ($routeProvider) {
 	$routeProvider
