@@ -1,7 +1,7 @@
 var app = angular.module('TodoApp', []);
 app.controller('TodoCtrl', function($scope, $http) {
 	$scope.todos = [];
-	$http.get('http://localhost:8080/todos').success(function(data) {
+	$http.get('http://localhost:8081/spring4mvc/rest/persons').success(function(data) {
     	$scope.todos = data;
     	//alert(data);
   	});
