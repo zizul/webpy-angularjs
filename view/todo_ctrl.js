@@ -1,20 +1,20 @@
 var app = angular.module('TodoApp', []);
 app.controller('TodoCtrl', function($scope, $http) {
-	$scope.todos = [];
+	$scope.perons = [];
 	$http.get('http://localhost:8081/spring4mvc/rest/persons').success(function(data) {
-    	$scope.todos = data;
+    	$scope.persons = data;
     	//alert(data);
   	});
 
 	$scope.message = 'Angular is pretty cool.';
 
-	$scope.done = function(todo) {
-    	var indexOf = $scope.todos.indexOf(todo);
+	$scope.done = function(persons) {
+    	var indexOf = $scope.persons.indexOf(person);
     	if (indexOf !== -1) {
-      		$scope.todos.splice(indexOf, 1);
+      		$scope.persons.splice(indexOf, 1);
     	}
   	};
-  	$scope.newTodo = "";
+  	$scope.newPerson = "";
   	$scope.add = function(e) {
  		if(e.keyCode == 13) {
  		
@@ -25,19 +25,19 @@ app.controller('TodoCtrl', function($scope, $http) {
 
 			$http({
 	        	method  : 'POST',
-	        	url     : 'http://localhost:8080/newtodo',
-	        	data    : {name : $scope.newTodo},  // pass in data as strings
+	        	url     : 'http://localhost:8080/newperson',
+	        	data    : {firstname : $scope.newPerson},  // pass in data as strings
 	        	headers : { 'Content-Type': 'application/x-www-form-urlencoded' }
 	    	})
 	        .success(function(data) {
 	            console.log(data);
 	        });
-            var newTodoObj = {
+            var newPersonObj = {
                 id: 1,
-                name: $scope.newTodo
+                firstname: $scope.newPerson
             }
- 			$scope.todos.push({name:$scope.newTodo});
- 			$scope.newTodo = '';
+ 			$scope.persons.push({firstname:$scope.newPerson});
+ 			$scope.newPerson = '';
         }
   	};
 });
